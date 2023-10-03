@@ -1,0 +1,51 @@
+﻿@model Brand
+@{
+    ViewData["Title"] = "Chỉnh sửa Thương hiệu " + Model.Name;
+}
+<form method="post">
+    <div class="card border-primary mb-3" style="max-width: 100%;">
+        <div class="card-header text-center text-light fs-3 badge bg-primary w-100">Chỉnh sửa thương hiệu</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <div class="form-text mb-3">
+                        <input asp-for="Id" hidden />
+                        <label asp-for="Name"></label>
+                        <input asp-for="Name" type="text" class="form-control">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-text mb-3">
+                        <label asp-for="Website"></label>
+                        <input asp-for="Website" type="text" class="form-control">
+                        <span asp-validation-for="Website" class="text-danger"></span>
+                    </div>
+                    <div class="form-text mb-3">
+                        <label asp-for="Description"></label>
+                        <input asp-for="Description" type="text" class="form-control">
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-text">
+                        <label>Chọn logo</label>
+                        <input asp-for="LogoUrl" type="file" class="form-control">
+                        <span asp-validation-for="LogoUrl" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-outline-primary w-100">Cập nhật</button>
+                </div>
+                <div class="col-md-4">
+                    <a asp-controller="Brand" asp-action="Index" class="btn btn-outline-dark w-50">Trở về</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

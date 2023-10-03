@@ -1,0 +1,125 @@
+﻿@model ProductVM
+@if(Model.Product.Id != 0)
+{
+    ViewData["Title"] = "Cập nhật sản phẩm - MaiVangNapo";
+}
+else
+{
+    ViewData["Title"] = "Thêm sản phẩm - MaiVangNapo";
+}
+<div class="card border-primary mb-3" style="max-width: 100%;">
+    <div class="card-header text-center text-light fs-3 badge bg-primary w-100">
+        <div class="col-12 text-center">
+            <h2>@(Model.Product.Id != 0 ? "Cập nhật" : "Thêm") sản phẩm</h2>
+        </div>
+    </div>
+    <div class="card-body">
+        <form method="post" class="row" enctype="multipart/form-data">
+            <div class="col-md-6">
+                <input asp-for="Product.Id" hidden />
+                <input asp-for="Product.ImageUrl" hidden />
+                <div class="form-text mb-3">
+                    <label asp-for="Product.Name"></label>
+                    <input asp-for="Product.Name" type="text" class="form-control">
+                    <span asp-validation-for="Product.Name" class="text-danger"></span>
+                </div>
+                <div class="form-text mb-3">
+                    <label asp-for="Product.Code"></label>
+                    <input asp-for="Product.Code" type="number" class="form-control">
+                    <span asp-validation-for="Product.Code" class="text-danger"></span>
+                </div>
+                <div class="form-text mb-3">
+                    <label asp-for="Product.MarketPrice"></label>
+                    <input asp-for="Product.MarketPrice" type="number" class="form-control">
+                    <span asp-validation-for="Product.MarketPrice" class="text-danger"></span>
+                </div>
+                <div class="form-text mb-3">
+                    <label asp-for="Product.Price"></label>
+                    <input asp-for="Product.Price" type="number" class="form-control">
+                    <span asp-validation-for="Product.Price" class="text-danger"></span>
+                </div>
+                <div class="form-text mb-3">
+                    <label asp-for="Product.Offers"></label>
+                    <input asp-for="Product.Offers" type="text" class="form-control">
+                    <span asp-validation-for="Product.Offers" class="text-danger"></span>
+                </div>
+                <div class="form-text mb-3">
+                    <label asp-for="Product.CategoryId"></label>
+                    <select asp-for="@Model.Product.CategoryId" asp-items="@Model.CategoryList" class="form-select" >
+                        <option disabled selected>--Select Category--</option>
+                    </select>
+                    <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-text mb-3">
+                    <label asp-for="Product.BrandId"></label>
+                    <select asp-for="@Model.Product.BrandId" asp-items="@Model.BrandList" class="form-select">
+                        <option disabled selected>--Select Category--</option>
+                    </select>
+                    <span asp-validation-for="Product.BrandId" class="text-danger"></span>
+                </div>
+                <div class="form-text mb-3">
+                    <label asp-for="Product.Discount"></label>
+                    <input asp-for="Product.Discount" type="number" class="form-control" >
+                    <span asp-validation-for="Product.Discount" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-text mb-3">
+                    <label>Chọn hình ảnh</label>
+                    <input asp-for="Product.ImageUrl" type="file" name="file" class="form-control">
+                    <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
+                </div>
+                <div class="form-control mb-3">
+                    <img src="@Model.Product.ImageUrl" class="w-100"/>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-text mb-3">
+                    <label asp-for="Product.ProductInfo"></label>
+                    <textarea asp-for="Product.ProductInfo" type="text" class="form-control"></textarea>
+                    <span asp-validation-for="Product.ProductInfo" class="text-danger"></span>
+                </div>
+                <div class="form-text mb-3">
+                    <label asp-for="Product.RecommendedUsage"></label>
+                    <textarea asp-for="Product.RecommendedUsage" type="text" class="form-control"></textarea>
+                    <span asp-validation-for="Product.RecommendedUsage" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-md-2">
+                        @if(Model.Product.Id != 0)
+                        {
+                            <button type="submit" class="btn btn-outline-primary w-100">Cập nhật</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-outline-success w-100">Thêm</button>
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-dark w-50">Trở về</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant"))
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}

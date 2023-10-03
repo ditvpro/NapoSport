@@ -1,0 +1,29 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "Quản lý sản phẩm";
+}
+<div class="card w-100">
+    <div class="card-title bg-primary text-center text-light p-3">
+        <h4>QUẢN LÝ SẢN PHẨM</h4>
+    </div>
+    <div class="table-responsive">
+        <div class="card-body">
+            <a asp-controller="Product" asp-action="Upsert" class="btn btn-outline-success">Thêm sản phẩm</a>
+            <hr />
+            <table id="tblData" class="table table-striped table-bordered">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col" class="col-md-5">Tên sản phẩm</th>
+                        <th scope="col" class="col-md-1">Mã sản phẩm</th>
+                        <th scope="col" class="col-md-2">Giá bán</th>
+                        <th scope="col" class="col-md-2">Danh mục</th>
+                        <th scope="col" class="col-md-2"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/product.js"></script>
+}
