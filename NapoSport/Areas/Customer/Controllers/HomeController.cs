@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NapoSport.DataAccess.Repository.IRepository;
 using NapoSport.Models;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace NapoSport.Areas.Customer.Controllers
 {
@@ -29,8 +31,35 @@ namespace NapoSport.Areas.Customer.Controllers
         }
         public IActionResult Details(int productId)
         {
-            Product product = _unitOfWork.Product.Get(p => p.Id == productId, includeProperties: "Category,Brand");
-            return View(product);
+            ShoppingCart cart = new()
+            {
+                Product = _unitOfWork.Product.Get(c => c.Id == productId, includeProperties: "Category,Brand"),
+                Count = 1,
+                ProductId = productId
+            };
+            return View(cart);
+        }
+        [HttpPost]
+        [Authorize]
+        public IActionResult Details(ShoppingCart cart)
+        {
+            var claimsIndetity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIndetity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            cart.ApplicationUserId = userId;
+
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.Get(c =>c.ApplicationUserId == userId && c.ProductId == cart.ProductId);
+            if (cartFromDb != null )
+            {
+                cartFromDb.Count += cart.Count;
+                _unitOfWork.ShoppingCart.Update(cartFromDb);
+            }
+            else
+            {
+                _unitOfWork.ShoppingCart.Add(cart);
+            }
+            _unitOfWork.Save();
+
+            return RedirectToAction(nameof(Index));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
