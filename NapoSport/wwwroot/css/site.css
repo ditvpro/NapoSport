@@ -33,3 +33,11 @@ body {
 .offd {
     text-decoration: none;
 }
+.product-name {
+    font-family: Calibri;
+    font-size: 14px;
+}
+.tab-pane img{
+    max-width: 100%;
+    height: auto;
+}

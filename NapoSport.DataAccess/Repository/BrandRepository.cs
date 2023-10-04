@@ -17,11 +17,6 @@ namespace NapoSport.DataAccess.Repository
             _db = db;
         }
 
-        public void Save()
-        {
-            _db.SaveChanges();
-        }
-
         public void Update(Brand brand)
         {
             _db.Brands.Update(brand);

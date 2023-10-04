@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NapoSport.DataAccess.Data;
 using NapoSport.DataAccess.Repository.IRepository;
 using NapoSport.Models;
 using NapoSport.Models.ViewModels;
+using NapoSport.Utility;
 
 namespace NapoSport.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    //[Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -114,7 +117,7 @@ namespace NapoSport.Areas.Admin.Controllers
 
         #region API CALLS
         [HttpGet]
-        public IActionResult GetAll(int id)
+        public IActionResult GetAll()
         {
             List<Product> products = _unitOfWork.Product.GetAll(includeProperties: "Category,Brand").ToList();
             return Json(new {data = products});

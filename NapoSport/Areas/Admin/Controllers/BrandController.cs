@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NapoSport.DataAccess.Data;
 using NapoSport.DataAccess.Repository.IRepository;
 using NapoSport.Models;
+using NapoSport.Utility;
 
 namespace NapoSport.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    //[Authorize(Roles = SD.Role_Admin)]
     public class BrandController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

@@ -9,7 +9,6 @@ namespace NapoSport.DataAccess.Repository.IRepository
 {
     public interface IBrandRepository : IRepository<Brand>
     {
-        void Save();
         void Update(Brand brand);
     }
 }

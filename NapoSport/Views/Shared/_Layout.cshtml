@@ -12,7 +12,7 @@
     <!--FontEnd-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
     <!-- Google Fonts Roboto -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
 </head>
 <body>
     <header>
@@ -30,26 +30,26 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="Customer" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @* @if (User.IsInRole(SD.Role_Admin)) { *@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Quản lý</a>
                             <div class="dropdown-menu">
                                 <a class="text-dark dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Danh mục</a>
                                 <a class="text-dark dropdown-item" asp-area="Admin" asp-controller="Brand" asp-action="Index">Thương hiệu</a>
                                 <a class="text-dark dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Sản phẩm</a>
+                                <a class="text-dark dropdown-item" asp-area="Admin" asp-controller="Company" asp-action="Index">Đối tác</a>
                             </div>
                         </li>
+                        @* } *@
                     </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-sm-2" type="search" placeholder="Search">
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                    </form>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            <partial name="_Notification"/>
+            <partial name="_Notification" />
             @RenderBody()
         </main>
     </div>

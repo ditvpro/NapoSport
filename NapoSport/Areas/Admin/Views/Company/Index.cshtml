@@ -1,0 +1,29 @@
+﻿@model List<Company>
+@{
+    ViewData["Title"] = "Quản lý công ty đối tác";
+}
+<div class="card w-100">
+    <div class="card-title bg-primary text-center text-light p-3">
+        <h4>QUẢN LÝ CÔNG TY ĐỐI TÁC</h4>
+    </div>
+    <div class="table-responsive">
+        <div class="card-body">
+            <a asp-controller="Company" asp-action="Upsert" class="btn btn-outline-success">Thêm đối tác</a>
+            <hr />
+            <table id="tblData" class="table table-striped table-bordered">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col" class="col-md-3">Tên công ty đối tác</th>
+                        <th scope="col" class="col-md-4">Địa chỉ</th>
+                        <th scope="col" class="col-md-2">Số điện thoại</th>
+                        <th scope="col" class="col-md-1">Trạng thái</th>
+                        <th scope="col" class="col-md-2">Action</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/company.js"></script>
+}
