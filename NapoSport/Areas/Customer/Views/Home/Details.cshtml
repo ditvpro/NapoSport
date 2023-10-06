@@ -48,9 +48,9 @@
                             <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>154 orders</span>
                             <span class="text-success ms-2">In stock</span>
                         </div>
-
+                        <h6>Giá thị trường: <i>@Model.Product.MarketPrice.ToString("0,0 đ")</i></h6>
                         <div class="mb-3">
-                            <span class="h5">@Model.Product.Price</span>
+                            <span class="h5 text-warning"><strong><u>@Model.Product.Price.ToString("0,0 đ")</u></strong></span>
                             <span class="text-muted">/ sản phẩm</span>
                         </div>
 
@@ -65,7 +65,7 @@
                             <div class="col-3">Material</div>
                             <div class="col-9">Cotton, Jeans</div>
 
-                            <div class="col-3">Brand</div>
+                            <div class="col-3">Thương hiệu</div>
                             <div class="col-9">@Model.Product.Brand.Name</div>
                         </div>
 
@@ -84,19 +84,18 @@
                             <div class="col-md-4 col-6 mb-3">
                                 <label class="mb-2 d-block">Số lượng</label>
                                 <div class="input-group mb-3" style="width: 170px;">
-                                    <button class="btn btn-white border border-secondary px-3" type="button" id="button-addon1" data-mdb-ripple-color="dark">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input asp-for="Count" type="number" value="1" class="form-control text-center border border-secondary" placeholder="14" aria-label="Example text with button addon" aria-describedby="button-addon1" />
-                                    <button class="btn btn-white border border-secondary px-3" type="button" id="button-addon2" data-mdb-ripple-color="dark">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
+                                    <div class="input-group mb-3">
+                                        <input asp-for="Count" type="number" value="1" class="form-control text-center border border-secondary" placeholder="14" aria-label="Example text with button addon" aria-describedby="button-addon1" />
+                                        <span class="input-group-text bg-primary text-light">Sản phẩm</span>
+                                    </div>
+                                   
+                                    
                                 </div>
                             </div>
                         </div>
                         <a href="#" class="btn btn-warning shadow-0"> Mua ngay </a>
                         <button type="submit" class="btn btn-primary shadow-0"> <i class="me-1 fa fa-shopping-basket"></i> Thêm vào giỏ </button>
-                        <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i class="me-1 fa fa-heart fa-lg"></i> Save </a>
+                        <a href="#" class="btn btn-danger shadow-0"> <i class="fa fa-heart fa-lg"></i> Save </a>
                     </div>
                 </main>
             </div>

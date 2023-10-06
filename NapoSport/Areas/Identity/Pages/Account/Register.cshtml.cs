@@ -171,7 +171,7 @@ namespace NapoSport.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.Name = Input.Name;
                 user.StreetAddress = Input.StreeAddress;
-                user.State = Input.State;
+                user.City = Input.State;
                 user.PostalCode = Input.PostalCode;
                 user.PhoneNumber = Input.PhoneNumber;
 

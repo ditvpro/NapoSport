@@ -166,7 +166,7 @@
                 @foreach(var product in Model)
                 {
                     <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="card my-2">
+                        <div class="card border-0 shadow my-2">
                             <a asp-action="Details" asp-route-productId="@product.Id">
                                 <div class="mask" style="height: 50%;">
                                     <div class="d-flex justify-content-start align-items-start m-2">
@@ -176,8 +176,11 @@
                                 <img src="@product.ImageUrl" class="card-img-top rounded-2 p-1" />
                             </a>
                             <div class="card-body p-1">
-                                <a href="#!" class="btn btn-light float-end icon-hover"><i class="fas fa-heart text-secondary"></i></a>
-                                <h5 class="text-start m-1">@product.Price</h5>
+                                <button type="button" class="btn btn-danger float-end btn-sm mb-2" data-mdb-toggle="tooltip"
+                                        title="Thêm vào yêu thích">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                                <h5 class="text-start m-1">@product.Price.ToString("0,0 đ")</h5>
                                 <div class="col mt-3">
                                     <p class="mb-0 product-name">@product.Name</p>
                                 </div>

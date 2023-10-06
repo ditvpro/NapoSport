@@ -1,0 +1,93 @@
+﻿@model ShoppingCartVM
+<form method="post">
+    <div class="row d-flex justify-content-center my-4">
+        <div class="col-md-8 ">
+            <div class="card border-0 mb-4">
+                <div class="card-header py-3">
+                    <h5 class="mb-0">Giỏ hàng</h5>
+                </div>
+                <div class="card-body p-3">
+                    @if(Model.ShoppingCartList.Count() != 0)
+                    {
+                        <!-- Single item -->
+                        @foreach(var item in Model.ShoppingCartList)
+                        {
+                            <div class="row">
+                                <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                                    <!-- Image -->
+                                    <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                                        <img src="@item.Product.ImageUrl"
+                                             class="w-100" alt="Blue Jeans Jacket" />
+                                        <a href="#!">
+                                            <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                                        </a>
+                                    </div>
+                                    <!-- Image -->
+                                </div>
+
+                                <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                                    <!-- Data -->
+                                    <p><strong>@item.Product.Name</strong></p>
+                                    <h6 class="mb-0">Mã sản phẩm: <i>@item.Product.Code</i></h6>
+                                    <h6 class="mb-0">Giảm giá: @item.Product.Discount %</h6>
+                                    <s class="mb-0"><i>@item.Product.MarketPrice.ToString("0,0 đ")</i></s>
+                                    <p class="text-start">
+                                        <strong>@item.Price.ToString("0,0 đ")</strong>
+                                    </p>
+                                    <a asp-action="remove" asp-route-cartId="@item.Id" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                                       title="Remove item">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
+                                            title="Thêm vào danh sách theo dõi">
+                                        <i class="fas fa-heart"></i>
+                                    </button>
+                                    <!-- Data -->
+                                </div>
+
+                                <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                                    <!-- Quantity -->
+                                    <label class="form-group">Số lượng</label>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <a asp-action="minus" asp-route-cartId="@item.Id" class="btn btn-primary w-100">
+                                                <i class="fas fa-minus"></i>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-outline w-100">
+                                                <input min="0" value="@item.Count" type="number" class="form-control " />
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <a asp-action="plus" asp-route-cartId="@item.Id" class="btn btn-primary w-100">
+                                                <i class="fas fa-plus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Quantity -->
+                            </div>
+                            <hr />
+
+                        }
+                        <div class="row mb-0">
+                            <div class="col-6"><strong>Tổng thanh toán:</strong></div>
+                            <div class="col-6 text-end text-primary fs-5"><strong><i></i>@Model.OrderHeader.OrderTotal.ToString("0,0 đ")</strong></div>
+                        </div>
+                        <hr />
+                        <div class="text-center">
+                            <a asp-action="summary" class="btn btn-primary btn-lg btn-block">Tiến hành đặt hàng</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <h3 class="text-center">Chưa có sản phẩm nào trong giỏ hàng</h3>
+                        <a asp-controller="Home" asp-action="Index"><i>Trở lại mua hàng</i></a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

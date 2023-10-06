@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/NapoSport.styles.css" asp-append-version="true" />
+
     <!--FontEnd-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
     <!-- Google Fonts Roboto -->
@@ -41,6 +42,13 @@
                             </div>
                         </li>
                         @* } *@
+                    </ul>
+                    <ul class="navbar-nav me-3">
+                        <li class="nav-item">
+                            <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="text-light">
+                                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                            </a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

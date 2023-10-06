@@ -1,0 +1,87 @@
+﻿@model ShoppingCartVM
+@{
+    ViewData["Title"] = "Xác nhận thanh toán";
+}
+<form>
+    <div class="card border-light mb-3 w-100">
+        <div class="card-header">Chi tiết đơn hàng</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12 col-lg-6 col-xl-6">
+                    <h5 class="text-dark">Xác nhận thông tin</h5>
+                    <div class="form-floating mb-3">
+                        <input asp-for="OrderHeader.Name" type="text" class="form-control" id="floatingInput" placeholder="">
+                        <label for="floatingInput">Họ và tên người nhận</label>
+                        <span asp-validation-for="OrderHeader.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="OrderHeader.PhoneNumber" type="number" class="form-control" id="floatingInput" placeholder="">
+                        <label for="floatingInput">Số điện thoại</label>
+                        <span asp-validation-for="OrderHeader.PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="OrderHeader.StreetAddress" type="text" class="form-control" id="floatingInput" placeholder="">
+                        <label for="floatingInput">Địa chỉ</label>
+                        <span asp-validation-for="OrderHeader.StreetAddress" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="OrderHeader.PostalCode" type="number" class="form-control" id="floatingInput" placeholder="">
+                        <label for="floatingInput">Mã bưu điện (nếu có)</label>
+                        <span asp-validation-for="OrderHeader.PostalCode" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input asp-for="OrderHeader.City" type="text" class="form-control" id="floatingInput" placeholder="">
+                        <label for="floatingInput">Thành phố</label>
+                        <span asp-validation-for="OrderHeader.City" class="text-danger"></span>
+                    </div>
+                    <i>* Đơn hàng sẽ được gửi đến bạn từ 3 đến 7 ngày. (@DateTime.Now.AddDays(3).ToShortDateString() - @DateTime.Now.AddDays(7).ToShortDateString())</i>
+                </div>
+                <div class="col-md-12 col-lg-6 col-xl-6">
+                    <h5 class="text-dark">Xác nhận đơn hàng</h5>
+                    <div class="card border-success mb-3" style="max-width: 100%;">
+                        <div class="card-header">Tổng thanh toán</div>
+                        <div class="card-body">
+                            <ul class="list-group mb-3">
+                                @foreach(var details in Model.ShoppingCartList)
+                                {
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-8 col-md-9 col-lg-9 text-start">
+                                                <h6 class="my-0">@details.Product.Name</h6>
+                                                <small class="text-muted">Số lượng: @details.Count</small>
+                                            </div>
+                                            <div class="col-4 col-md-3 col-lg-3 text-end">
+                                                <span class="text-light badge bg-success rounded-pill"><strong>@((details.Price * details.Count).ToString("0,0 đ"))</strong></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-6 text-start">
+                                    <h5><strong>Tổng:</strong></h5>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <h5><i><strong>@Model.OrderHeader.OrderTotal.ToString("0,0 đ")</strong></i></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-6 col-md-6 col-lg-6 col-xl-6">
+                    <a asp-action="Index" class="btn btn-outline-dark">Xem lại giỏ hàng</a>
+                </div>
+                <div class="col-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-success">Thanh toán</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
