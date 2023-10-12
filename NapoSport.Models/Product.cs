@@ -23,9 +23,6 @@ namespace NapoSport.Models
         public double MarketPrice { get; set; }
         [Required, DisplayName("Giá bán")]
         public double Price { get; set; }
-        [DisplayName("Giảm giá")]
-        [Range(0, 100, ErrorMessage = "Giá trị phải từ 0 đến 100")]
-        public int? Discount { get; set; }
         [MaxLength(200), DisplayName("Ưu đãi")]
         public string? Offers { get; set; }
         [Required, DisplayName("Thông tin sản phẩm")]

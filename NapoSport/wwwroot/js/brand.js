@@ -6,18 +6,17 @@ $(document).ready(function ()
 
 function loadDataTable() {
     dataTable = $('#tblData').DataTable({
-        "ajax": { url: '/admin/product/getall' },
+        "ajax": { url: '/admin/brand/getall' },
         "columns": [
-            { data: 'name', "width": "40%" },
-            { data: 'code', "width": "10%" },
-            { data: 'price', "width": "15%" },
-            { data: 'category.name', "width": "15%" },
+            { data: 'name', "width": "20%" },
+            { data: 'description', "width": "40%" },
+            { data: 'website', "width": "20%" },
             {
                 data: 'id',
                 "render": function (data) {
                     return `<div class="w-100 btn-group" role="group">
-                        <a href="/admin/product/upsert?id=${data}" class="btn btn-warning mx-2">Sửa</a>
-                        <a onClick=Delete('/admin/product/delete/${data}') class="btn btn-danger">Xóa</a>
+                        <a href="/admin/brand/upsert?id=${data}" class="btn btn-warning mx-2">Sửa</a>
+                        <a onClick=Delete('/admin/brand/delete/${data}') class="btn btn-danger">Xóa</a>
                     </div >`
                 },
                 "width": "20%"
@@ -27,7 +26,7 @@ function loadDataTable() {
 }
 function Delete(url) {
     Swal.fire({
-        title: 'Xóa sản phẩm này?',
+        title: 'Xóa thương hiệu này?',
         text: "Sau khi xóa sẽ không thể phục hồi!",
         icon: 'warning',
         showCancelButton: true,

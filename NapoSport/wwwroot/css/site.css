@@ -1,4 +1,4 @@
-html {
+﻿html {
     font-size: 14px;
 }
 
@@ -40,4 +40,15 @@ body {
 .tab-pane img{
     max-width: 100%;
     height: auto;
+}
+.floating-card-footer {
+    position: fixed;
+    z-index: 10;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #f8f9fa; /* Màu nền */
+    padding: 15px;
+    border-top: 1px solid #ddd; /* Đường viền phía trên */
+    box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.2); /* Đổ bóng phía dưới */
 }

@@ -4,7 +4,9 @@
 }
 <form method="post">
     <div class="card border-primary mb-3" style="max-width: 100%;">
-        <div class="card-header text-center text-light fs-3 badge bg-primary w-100">Chỉnh sửa danh mục</div>
+        <div class="card-header text-center text-light fs-3 badge bg-primary w-100">
+            @(Model.Id != 0 ? "Cập nhật" : "Thêm mới") danh mục
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="form-group col-md-6">
@@ -29,13 +31,20 @@
                 </div>
             </div>
         </div>
-        <div class="card-footer">
-            <div class="row">
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-outline-primary w-100">Cập nhật</button>
+        <div class="card-footer floating-card-footer">
+            <div class="row text-center">
+                <div class="col-md-6 text-end">
+                    @if(Model.Id != 0)
+                    {
+                        <button type="submit" class="btn btn-outline-primary w-25">Cập nhật</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-outline-success w-25">Thêm</button>
+                    }
                 </div>
-                <div class="col-md-4">
-                    <a asp-controller="Category" asp-action="Index" class="btn btn-outline-dark w-50">Trở về</a>
+                <div class="col-md-6 text-start">
+                    <a asp-controller="Category" asp-action="Index" class="btn btn-outline-dark w-25">Trở về</a>
                 </div>
             </div>
         </div>

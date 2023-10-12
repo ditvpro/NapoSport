@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using NapoSport.DataAccess.Data;
 using NapoSport.DataAccess.Repository.IRepository;
 using NapoSport.Models;
 using NapoSport.Utility;
+using System.Drawing.Drawing2D;
 
 namespace NapoSport.Areas.Admin.Controllers
 {
@@ -22,67 +24,64 @@ namespace NapoSport.Areas.Admin.Controllers
             List<Brand> brands = _unitOfWork.Brand.GetAll().ToList();
             return View(brands);
         }
-
-        public IActionResult Create()
+        public IActionResult Upsert(int? id)
         {
-            return View();
+            if(id == null || id == 0)
+            {
+                //create
+                return View(new Brand());
+            }
+            else
+            {
+                //update
+                var brand = _unitOfWork.Brand.Get(c => c.Id == id);
+                return View(brand);
+            }
         }
 
         [HttpPost]
-        public IActionResult Create(Brand brand)
+        public IActionResult Upsert(Brand brand)
         {
             if(ModelState.IsValid)
             {
-                _unitOfWork.Brand.Add(brand);
+                if(brand.Id == 0)
+                {
+                    _unitOfWork.Brand.Add(brand);
+                }
+                else
+                {
+                    _unitOfWork.Brand.Update(brand);
+                }
                 _unitOfWork.Save();
                 TempData["success"] = "Thao tác thành công!";
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
-        }
-
-        public IActionResult Edit(int? id)
-        {
-            if(id == null || id == 0) return NotFound();
-            Brand? brand = _unitOfWork.Brand.Get(b => b.Id == id);
-            return View(brand);
-        }
-
-        [HttpPost]
-        public IActionResult Edit(Brand brand)
-        {
-            if(brand == null)
+            else
             {
-                return NotFound();
+                return View(brand);
             }
-            if(ModelState.IsValid)
-            {
-                _unitOfWork.Brand.Update(brand);
-                _unitOfWork.Save();
-                TempData["success"] = "Thao tác thành công!";
-            }
-            return RedirectToAction("Index");
         }
 
+        #region API CALLS
+        public IActionResult GetAll()
+        {
+            List<Brand> brands = _unitOfWork.Brand.GetAll().ToList();
+            return Json(new { data = brands });
+        }
+        [HttpDelete]
         public IActionResult Delete(int? id)
         {
-            if(id == null || id == 0) return NotFound();
-            Brand? brand = _unitOfWork.Brand.Get(b => b.Id == id);
-            if(brand == null) return NotFound();
-            return View(brand);
-        }
+            var brandToDeleted = _unitOfWork.Brand.Get(p => p.Id == id);
 
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeletePOST(int? id)
-        {
-            Brand? brand = _unitOfWork.Brand.Get(b => b.Id == id);
-            if(brand == null)
+            if(brandToDeleted == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Không tìm brand để xóa" });
             }
-            _unitOfWork.Brand.Remove(brand);
+            _unitOfWork.Brand.Remove(brandToDeleted);
             _unitOfWork.Save();
-            TempData["success"] = "Thao tác thành công!";
-            return RedirectToAction("Index");
+
+            return Json(new { success = true, message = "Xóa thành công!" });
         }
+        #endregion
     }
 }

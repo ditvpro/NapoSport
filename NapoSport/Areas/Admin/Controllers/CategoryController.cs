@@ -23,66 +23,64 @@ namespace NapoSport.Areas.Admin.Controllers
             return View(categories);
         }
 
-        public IActionResult Create()
+        public IActionResult Upsert(int? id)
         {
-            return View();
+            if(id == null || id == 0)
+            {
+                //create
+                return View(new Category());
+            }
+            else
+            {
+                //update
+                var categories = _unitOfWork.Category.Get(c => c.Id == id);
+                return View(categories);
+            }
         }
 
         [HttpPost]
-        public IActionResult Create(Category category)
+        public IActionResult Upsert(Category category)
         {
             if(ModelState.IsValid)
             {
-                _unitOfWork.Category.Add(category);
+                if(category.Id == 0)
+                {
+                    _unitOfWork.Category.Add(category);
+                }
+                else
+                {
+                    _unitOfWork.Category.Update(category);
+                }
                 _unitOfWork.Save();
                 TempData["success"] = "Thao tác thành công!";
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
-        }
-
-        public IActionResult Edit(int? id)
-        {
-            if(id == null || id == 0) return NotFound();
-            Category? category = _unitOfWork.Category.Get(c => c.Id == id);
-            return View(category);
-        }
-
-        [HttpPost]
-        public IActionResult Edit(Category category)
-        {
-            if(category == null)
+            else
             {
-                return NotFound();
+                return View(category);
             }
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Category.Update(category);
-                _unitOfWork.Save();
-                TempData["success"] = "Thao tác thành công!";
-            }
-            return RedirectToAction("Index");
         }
 
+        #region API CALLS
+        public IActionResult GetAll()
+        {
+            List<Category> categories = _unitOfWork.Category.GetAll().ToList();
+            return Json(new { data = categories });
+        }
+        [HttpDelete]
         public IActionResult Delete(int? id)
         {
-            if (id == null || id == 0) return NotFound();
-            Category? category = _unitOfWork.Category.Get(c => c.Id == id);
-            if (category == null) return NotFound();
-            return View(category);
-        }
+            var categoryToDeleted = _unitOfWork.Category.Get(p => p.Id == id);
 
-        [HttpPost, ActionName("Delete")]
-        public IActionResult DeletePOST(int? id)
-        {
-            Category? category = _unitOfWork.Category.Get(c => c.Id == id);
-            if (category == null)
+            if(categoryToDeleted == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Không tìm brand để xóa" });
             }
-            _unitOfWork.Category.Remove(category);
+            _unitOfWork.Category.Remove(categoryToDeleted);
             _unitOfWork.Save();
-            TempData["success"] = "Thao tác thành công!";
-            return RedirectToAction("Index");
+
+            return Json(new { success = true, message = "Xóa thành công!" });
         }
+        #endregion
     }
 }

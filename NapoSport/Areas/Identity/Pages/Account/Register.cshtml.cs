@@ -119,8 +119,8 @@ namespace NapoSport.Areas.Identity.Pages.Account
             public string Name { get; set; }
             [DisplayName("Địa chỉ nhận hàng")]
             public string StreeAddress { get; set; }
-            [DisplayName("Trạng thái hoạt động")]
-            public string State { get; set; }
+            [DisplayName("Tỉnh/Thành phố")]
+            public string City { get; set; }
             [DisplayName("Mã bưu điện (nếu có)")]
             public string PostalCode { get; set; }
             [DisplayName("Số điện thoại")]
@@ -171,7 +171,7 @@ namespace NapoSport.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.Name = Input.Name;
                 user.StreetAddress = Input.StreeAddress;
-                user.City = Input.State;
+                user.City = Input.City;
                 user.PostalCode = Input.PostalCode;
                 user.PhoneNumber = Input.PhoneNumber;
 

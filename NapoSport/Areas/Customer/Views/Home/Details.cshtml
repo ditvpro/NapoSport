@@ -49,6 +49,7 @@
                             <span class="text-success ms-2">In stock</span>
                         </div>
                         <h6>Giá thị trường: <i>@Model.Product.MarketPrice.ToString("0,0 đ")</i></h6>
+                        <h6>Giảm giá: <i>@((((Model.Product.MarketPrice - Model.Product.Price) / Model.Product.MarketPrice) * 100).ToString(",0"))%</i></h6>
                         <div class="mb-3">
                             <span class="h5 text-warning"><strong><u>@Model.Product.Price.ToString("0,0 đ")</u></strong></span>
                             <span class="text-muted">/ sản phẩm</span>

@@ -1,14 +1,18 @@
 ﻿@model Brand
 @{
-    ViewData["Title"] = "Quản lý thương hiệu";
+    ViewData["Title"] = "Chỉnh sửa Thương hiệu " + Model.Name;
 }
 <form method="post">
-    <div class="card border-success mb-3" style="max-width: 100%;">
-        <div class="card-header text-center text-light fs-3 badge bg-success w-100">Tạo mới thương hiệu</div>
+    <div class="card border-primary mb-3" style="max-width: 100%;">
+        <div class="card-header text-center text-light fs-3 badge bg-primary w-100">
+            @(Model.Id != 0 ? "Cập nhật" : "Thêm mới") thương hiệu
+        </div>
+    </div>
         <div class="card-body">
             <div class="row">
                 <div class="form-group col-md-6">
                     <div class="form-text mb-3">
+                        <input asp-for="Id" hidden />
                         <label asp-for="Name"></label>
                         <input asp-for="Name" type="text" class="form-control">
                         <span asp-validation-for="Name" class="text-danger"></span>
@@ -32,16 +36,21 @@
                     </div>
                 </div>
             </div>
-
         </div>
-        <div class="card-footer">
-            <div class="row">
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-outline-success w-100">Thêm</button>
-                </div>
-                <div class="col-md-4">
-                    <a asp-controller="Brand" asp-action="Index" class="btn btn-outline-dark w-50">Trở về</a>
-                </div>
+    <div class="card-footer floating-card-footer">
+        <div class="row text-center">
+            <div class="col-md-6 text-end">
+                @if(Model.Id != 0)
+                {
+                    <button type="submit" class="btn btn-outline-primary w-25">Cập nhật</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-outline-success w-25">Thêm</button>
+                }
+            </div>
+            <div class="col-md-6 text-start">
+                <a asp-controller="Brand" asp-action="Index" class="btn btn-outline-dark w-25">Trở về</a>
             </div>
         </div>
     </div>

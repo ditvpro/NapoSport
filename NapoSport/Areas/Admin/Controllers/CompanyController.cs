@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using NapoSport.DataAccess.Repository.IRepository;
 using NapoSport.Models;
 
@@ -63,6 +64,21 @@ namespace NapoSport.Areas.Admin.Controllers
         {
             List<Company> companies = _unitOfWork.Company.GetAll().ToList();
             return Json(new {data = companies});
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int? id)
+        {
+            var companyToDeleted = _unitOfWork.Company.Get(p => p.Id == id);
+
+            if(companyToDeleted == null)
+            {
+                return Json(new { success = false, message = "Không tìm thấy sản phẩm để xóa" });
+            }
+            _unitOfWork.Company.Remove(companyToDeleted);
+            _unitOfWork.Save();
+
+            return Json(new { success = true, message = "Xóa thành công!" });
         }
         #endregion
     }

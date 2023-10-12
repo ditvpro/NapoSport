@@ -40,7 +40,7 @@ else
                 </div>
                 <div class="form-text mb-3">
                     <label asp-for="Product.Offers"></label>
-                    <input asp-for="Product.Offers" type="text" class="form-control">
+                    <input asp-for="Product.Offers" type="text" class="form-control" />
                     <span asp-validation-for="Product.Offers" class="text-danger"></span>
                 </div>
                 <div class="form-text mb-3">
@@ -57,21 +57,34 @@ else
                     </select>
                     <span asp-validation-for="Product.BrandId" class="text-danger"></span>
                 </div>
-                <div class="form-text mb-3">
-                    <label asp-for="Product.Discount"></label>
-                    <input asp-for="Product.Discount" type="number" class="form-control" >
-                    <span asp-validation-for="Product.Discount" class="text-danger"></span>
-                </div>
+                @if(Model.Product.Id != 0)
+                {
+                    <div class="form-text mb-3">
+                        <label>Giảm giá</label>
+                        <input type="text" class="form-control" disabled value="@((((Model.Product.MarketPrice - Model.Product.Price) / Model.Product.MarketPrice) * 100).ToString(",0"))%" />
+                    </div>
+                }
+                
             </div>
             <div class="col-md-6">
                 <div class="form-text mb-3">
                     <label>Chọn hình ảnh</label>
-                    <input asp-for="Product.ImageUrl" type="file" name="file" class="form-control">
+                    <input asp-for="Product.ImageUrl" type="file" name="file" class="form-control"/>
                     <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
                 </div>
-                <div class="form-control mb-3">
-                    <img src="@Model.Product.ImageUrl" class="w-100"/>
-                </div>
+                @if(@Model.Product.ImageUrl != null)
+                {
+                    <div class="form-control mb-3">
+                        <img src="@Model.Product.ImageUrl" class="w-100" />
+                    </div>
+                }
+                else
+                {
+                    <div class="form-label text-center mb-3">
+                        <span class="text-warning fs-5">Hình ảnh chưa cập nhật</span>
+                        <p><i>* chọn ảnh và thêm sản phẩm để cập nhật hình ảnh!</i></p>
+                    </div>
+                }
             </div>
             <div class="col-md-12">
                 <div class="form-text mb-3">
@@ -85,20 +98,20 @@ else
                     <span asp-validation-for="Product.RecommendedUsage" class="text-danger"></span>
                 </div>
             </div>
-            <div class="card-footer">
-                <div class="row">
-                    <div class="col-md-2">
+            <div class="card-footer floating-card-footer">
+                <div class="row text-center">
+                    <div class="col-md-6 text-end">
                         @if(Model.Product.Id != 0)
                         {
-                            <button type="submit" class="btn btn-outline-primary w-100">Cập nhật</button>
+                            <button type="submit" class="btn btn-outline-primary w-25">Cập nhật</button>
                         }
                         else
                         {
-                            <button type="submit" class="btn btn-outline-success w-100">Thêm</button>
+                            <button type="submit" class="btn btn-outline-success w-25">Thêm</button>
                         }
                     </div>
-                    <div class="col-md-4">
-                        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-dark w-50">Trở về</a>
+                    <div class="col-md-6 text-start">
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-dark w-25">Trở về</a>
                     </div>
                 </div>
             </div>
