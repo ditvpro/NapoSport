@@ -29,7 +29,7 @@
                                     <!-- Data -->
                                     <p><strong>@item.Product.Name</strong></p>
                                     <h6 class="mb-0">Mã sản phẩm: <i>@item.Product.Code</i></h6>
-                                    <h6 class="mb-0">Giảm giá: @((((item.Product.MarketPrice-item.Price)/item.Product.MarketPrice)*100).ToString("0,0"))%</h6>
+                                    <h6 class="mb-0">Giảm giá: @((((item.Product.MarketPrice-item.Price)/item.Product.MarketPrice)*100).ToString(",0"))%</h6>
                                     <s class="mb-0"><i>@item.Product.MarketPrice.ToString("0,0 đ")</i></s>
                                     <p class="text-start">
                                         <strong>@item.Price.ToString("0,0 đ")</strong>

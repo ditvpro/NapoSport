@@ -10,7 +10,7 @@ using System.Drawing.Drawing2D;
 namespace NapoSport.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = SD.Role_Admin)]
+    [Authorize(Roles = SD.Role_Admin)]
     public class BrandController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

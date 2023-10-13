@@ -34,7 +34,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="Admin" asp-controller="Order" asp-action="Index">Đơn hàng</a>
                         </li>
-                        @* @if (User.IsInRole(SD.Role_Admin)) { *@
+                        @if (User.IsInRole(SD.Role_Admin)) {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-light" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Quản lý</a>
                             <div class="dropdown-menu">
@@ -44,7 +44,7 @@
                                 <a class="text-dark dropdown-item" asp-area="Admin" asp-controller="Company" asp-action="Index">Đối tác</a>
                             </div>
                         </li>
-                        @* } *@
+                        }
                     </ul>
                     <ul class="navbar-nav me-3">
                         <li class="nav-item">

@@ -5,6 +5,7 @@ using NapoSport.Models;
 using NapoSport.Models.ViewModels;
 using NapoSport.Utility;
 using Stripe;
+using Stripe.Checkout;
 using System.Security.Claims;
 
 namespace NapoSport.Areas.Admin.Controllers
@@ -120,6 +121,68 @@ namespace NapoSport.Areas.Admin.Controllers
             _unitOfWork.Save();
             TempData["Success"] = "Thao tác thành công!";
             return RedirectToAction(nameof(Details), new { orderId = OrderVM.OrderHeader.Id });
+        }
+
+        [HttpPost]
+        [ActionName(nameof(Details))]
+        public IActionResult Details_PAYNOW()
+        {
+            OrderVM.OrderHeader = _unitOfWork.OrderHeader.Get(o => o.Id == OrderVM.OrderHeader.Id, includeProperties: "ApplicationUser");
+            OrderVM.OrderDetail = _unitOfWork.OrderDetail.GetAll(o => o.OrderHeaderId == OrderVM.OrderHeader.Id, includeProperties: "Product");
+
+            //tripe logic
+            var domain = "https://localhost:7146/";
+            var options = new SessionCreateOptions
+            {
+                SuccessUrl = domain + $"admin/order/PaymentConfirmation?orderHeaderId={OrderVM.OrderHeader.Id}",
+                CancelUrl = domain + $"admin/order/details?orderId={OrderVM.OrderHeader.Id}",
+                LineItems = new List<SessionLineItemOptions>(),
+                Mode = "payment",
+            };
+
+            foreach(var item in OrderVM.OrderDetail)
+            {
+                var sessionLineItem = new SessionLineItemOptions
+                {
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                        UnitAmount = (long)(item.Price),
+                        Currency = "vnd",
+                        ProductData = new SessionLineItemPriceDataProductDataOptions()
+                        {
+                            Name = item.Product.Name
+                        }
+                    },
+                    Quantity = item.Count
+                };
+                options.LineItems.Add(sessionLineItem);
+            }
+
+            var service = new SessionService();
+            Session session = service.Create(options);
+            _unitOfWork.OrderHeader.UpdateStripePaymentID(OrderVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
+            _unitOfWork.Save();
+            Response.Headers.Add("Location", session.Url);
+            return new StatusCodeResult(303);
+        }
+
+        public IActionResult PaymentConfirmation(int orderHeaderId)
+        {
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(o => o.Id == orderHeaderId);
+            if(orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
+            {
+                //this is an order by company
+                var service = new SessionService();
+                Session session = service.Get(orderHeader.SessionId);
+
+                if(session.PaymentStatus.ToLower() == "paid")
+                {
+                    _unitOfWork.OrderHeader.UpdateStripePaymentID(orderHeaderId, session.Id, session.PaymentIntentId);
+                    _unitOfWork.OrderHeader.UpdateStatus(orderHeaderId, orderHeader.OrderStatus, SD.PaymentStatusApproved);
+                    _unitOfWork.Save();
+                }
+            }
+            return View(orderHeaderId);
         }
 
         #region API CALLS

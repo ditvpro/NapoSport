@@ -151,7 +151,10 @@
                         <div class="col-12">
                             @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
                             {
-                                <button type="submit" asp-action="UpdateOrderDetail" class="btn btn-primary w-100">Cập nhật thông tin</button>
+                                @if(Model.OrderHeader.OrderStatus != SD.StatusShipped)
+                                {
+                                    <button type="submit" asp-action="UpdateOrderDetail" class="btn btn-primary w-100">Cập nhật thông tin</button>
+                                }
                             }
                         </div>
                     </div>
