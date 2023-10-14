@@ -24,5 +24,7 @@ namespace NapoSport.Utility
         public const string PaymentStatusApproved = "Đã thanh toán";
         public const string PaymentStatusDelayedPayment = "Thanh toán sau";
         public const string PaymentStatusRejected = "Không thanh toán";
+
+        public const string SessionCart = "SessionShoppingCart";
     }
 }

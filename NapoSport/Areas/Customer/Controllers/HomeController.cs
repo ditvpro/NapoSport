@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NapoSport.DataAccess.Repository.IRepository;
 using NapoSport.Models;
+using NapoSport.Utility;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -21,6 +22,14 @@ namespace NapoSport.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
+            var claimsIndetity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIndetity.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim != null)
+            {
+                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value).Count());
+            }
+
             IEnumerable<Product> products = _unitOfWork.Product.GetAll(includeProperties: "Category,Brand");
             return View(products);
         }
@@ -52,12 +61,17 @@ namespace NapoSport.Areas.Customer.Controllers
             {
                 cartFromDb.Count += cart.Count;
                 _unitOfWork.ShoppingCart.Update(cartFromDb);
+                _unitOfWork.Save();               
             }
             else
             {
                 _unitOfWork.ShoppingCart.Add(cart);
+                _unitOfWork.Save();
+                HttpContext.Session.SetInt32(SD.SessionCart,
+                _unitOfWork.ShoppingCart.GetAll(s => s.ApplicationUserId == userId).Count());
+                
             }
-            _unitOfWork.Save();
+            
 
             return RedirectToAction(nameof(Index));
         }
