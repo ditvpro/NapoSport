@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NapoSport.Models\NapoSport.Models.csproj" />
+    <ProjectReference Include="..\NapoSport.Utility\NapoSport.Utility.csproj" />
   </ItemGroup>
 
 </Project>
