@@ -7,7 +7,15 @@
 <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6 text-center">
-        <h1>@ViewData["Title"]</h1>
+        @if (User.IsInRole(SD.Role_Admin))
+        {
+            <h1>@ViewData["Title"] - với tư cách Quản trị</h1>
+        }
+        else
+        {
+            <h1>@ViewData["Title"]</h1>
+        }
+        
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
@@ -70,7 +78,9 @@
                 <label asp-for="Input.City"></label>
                 <span asp-validation-for="Input.City" class="text-danger"></span>
             </div>
-            <div class="row">
+            @if (User.IsInRole(SD.Role_Admin))
+            {
+                <div class="row">
                 <div class="col-md-6">
                     <div class="form-floating mb-3">
                         <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
@@ -86,7 +96,7 @@
                     </div>
                 </div>
             </div>
-
+            }
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Tạo</button>
         </form>
     </div>
