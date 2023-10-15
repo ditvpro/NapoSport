@@ -87,10 +87,47 @@
                 </div>
             </div>
 
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Tạo</button>
         </form>
     </div>
-    <div class="col-md-3"></div>
+    @if(!User.IsInRole(SD.Role_Admin))
+    {
+        <div class="d-flex align-items-center mt-1 mb-3">
+            <hr class="flex-grow-1">
+            <p class="m-2">Hoặc</p>
+            <hr class="flex-grow-1">
+        </div>
+        <div class="text-center">
+            <section>
+                @{
+                    if((Model.ExternalLogins?.Count ?? 0) == 0)
+                    {
+                        <div>
+                            <p>
+                                There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                                    article
+                                    about setting up this ASP.NET application to support logging in via external services
+                                </a>.
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                            <div>
+                                <p>
+                                    @foreach(var provider in Model.ExternalLogins!)
+                                    {
+                                        <button type="submit" class="btn btn-outline-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                    }
+                                </p>
+                            </div>
+                        </form>
+                    }
+                }
+            </section>
+        </div>
+    }
 </div>
 
 @section Scripts {
