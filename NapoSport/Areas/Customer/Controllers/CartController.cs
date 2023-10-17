@@ -119,7 +119,7 @@ namespace NapoSport.Areas.Customer.Controllers
             {
                 //it is regular customer account and we need to capture payment
                 //tripe logic
-                var domain = "https://localhost:7146/";
+                var domain = Request.Scheme + "://" + Request.Host.Value + "/";
                 var options = new SessionCreateOptions
                 {
                     SuccessUrl = domain + $"Customer/Cart/CartConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
