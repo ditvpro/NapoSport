@@ -8,9 +8,9 @@ function loadDataTable() {
     dataTable = $('#tblData').DataTable({
         "ajax": { url: '/admin/brand/getall' },
         "columns": [
-            { data: 'name', "width": "20%" },
-            { data: 'description', "width": "40%" },
-            { data: 'website', "width": "20%" },
+            { "data": 'name', "width": "20%" },
+            { "data": 'description', "width": "40%" },
+            { "data": 'website', "width": "20%" },
             {
                 data: 'id',
                 "render": function (data) {

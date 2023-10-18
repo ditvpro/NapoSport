@@ -8,10 +8,10 @@ function loadDataTable() {
     dataTable = $('#tblData').DataTable({
         "ajax": { url: '/admin/company/getall' },
         "columns": [
-            { data: 'name', "width": "25%" },
-            { data: 'address', "width": "35%" },
-            { data: 'phoneNumber', "width": "10%" },
-            { data: 'state', "width": "10%" },
+            { "data": 'name', "width": "25%" },
+            { "data": 'address', "width": "35%" },
+            { "data": 'phoneNumber', "width": "10%" },
+            { "data": 'state', "width": "10%" },
             {
                 data: 'id',
                 "render": function (data) {
