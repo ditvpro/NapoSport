@@ -46,10 +46,26 @@ namespace NapoSport.Areas.Admin.Controllers
             return Json(new {data = userList });
         }
 
-        [HttpDelete]
-        public IActionResult Delete(int? id)
+        [HttpPost]
+        public IActionResult LockUnlock([FromBody]string id)
         {
-            return Json(new { success = true, message = "Xóa thành công!" });
+            var objFromDb = _db.ApplicationUser.FirstOrDefault(u => u.Id == id);
+            if (objFromDb == null)
+            {
+                return Json(new { success = false, message = "Không tìm thấy User để Khóa/Mở khóa" });
+            }
+
+            if (objFromDb.LockoutEnd != null && objFromDb.LockoutEnd > DateTime.Now)
+            {
+                //user is currently locked and we need to unlock them
+                objFromDb.LockoutEnd = DateTime.Now;
+            }
+            else
+            {
+                objFromDb.LockoutEnd = DateTime.Now.AddDays(7);
+            }
+            _db.SaveChanges();
+            return Json(new { success = true, message = "Thao tác thành công" });
         }
         #endregion
     }
