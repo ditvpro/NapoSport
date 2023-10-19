@@ -24,7 +24,7 @@ function loadDataTable() {
                         return `
                             <div class="text-center">
                                 <a onclick=LockUnlock('${data.id}') class="btn btn-success">Mở khóa</a>
-                                <a class="btn btn-warning">Sửa</a>
+                                <a href="/admin/user/edit?userId=${data.id}" class="btn btn-warning">Sửa</a>
                             </div>
                         `
                     }
@@ -32,7 +32,7 @@ function loadDataTable() {
                         return `
                             <div class="text-center">
                                 <a onclick=LockUnlock('${data.id}') class="btn btn-danger">Khóa</a>
-                                <a class="btn btn-warning">Sửa</a>
+                                <a href="/admin/user/edit?userId=${data.id}" class="btn btn-warning">Sửa</a>
                             </div>
                         `
                     }

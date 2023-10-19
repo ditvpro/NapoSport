@@ -1,0 +1,65 @@
+﻿@model UserVM
+
+<div class="card">
+    <div class="card-body">
+        <h4>Chỉnh sửa người dùng</h4>
+        <div class="form-group">
+            <div class="form-control mt-3 mb-3 p-2">
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="User.Id" hidden />
+                                <input asp-for="User.Name" class="form-control"  readonly/>
+                                <label asp-for="User.Name"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <select asp-for="User.Role" asp-items="@Model.RoleList" class="form-select"></select>
+                            </div>
+                        </div>
+                        @{
+                            var companyVisible = "display:none;";
+                        }
+                        @if(Model.User.Role == SD.Role_Company)
+                        {
+                            companyVisible = "display:block;";
+                        }
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <select asp-for="User.CompanyId" asp-items="@Model.CompanyList" class="form-select" style="@companyVisible"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                            <a class="btn btn-outline-dark" asp-action="Index">Trở về</a>
+                        </div>
+                    </div> 
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            $('#User_Role').change(function () {
+                var selection = $('#User_Role Option:Selected').text();
+                if (selection == 'Company') {
+                    $('#User_CompanyId').show();
+                }
+                else {
+                    $('#User_CompanyId').hide();
+                }
+            })
+        })
+    </script>
+}
+

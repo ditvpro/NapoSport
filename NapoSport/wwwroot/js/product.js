@@ -28,7 +28,7 @@ function loadDataTable() {
 function Delete(url) {
     Swal.fire({
         title: 'Xóa sản phẩm này?',
-        text: "Sau khi xóa sẽ không thể phục hồi!",
+        text: 'Sau khi xóa sẽ không thể phục hồi!',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#ff2d2d',
