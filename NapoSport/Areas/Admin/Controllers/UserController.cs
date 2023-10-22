@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NapoSport.DataAccess.Data;
-using NapoSport.DataAccess.Repository;
-using NapoSport.DataAccess.Repository.IRepository;
 using NapoSport.Models;
 using NapoSport.Models.ViewModels;
 using NapoSport.Utility;
@@ -62,20 +59,20 @@ namespace NapoSport.Areas.Admin.Controllers
 
             if (!(userVM.User.Role == oldRole))
             {
-                ApplicationUser applicationUser = _db.ApplicationUser.FirstOrDefault(u => u.Id == userVM.User.Id);
+                var userFromDb = _db.ApplicationUser.FirstOrDefault(u => u.Id == userVM.User.Id);
                 if (userVM.User.Role == SD.Role_Company)
                 {
-                    applicationUser.CompanyId = userVM.User.CompanyId;
+                    userFromDb.CompanyId = userVM.User.CompanyId;
                 }
                 if (oldRole == SD.Role_Company)
                 {
-                    applicationUser.CompanyId = null;
+                    userFromDb.CompanyId = null;
                 }
+
                 _db.SaveChanges();
                 
-                _userManager.RemoveFromRoleAsync(applicationUser, oldRole).GetAwaiter().GetResult();
-                _userManager.AddToRoleAsync(applicationUser, userVM.User.Role).GetAwaiter().GetResult();
-
+                _userManager.RemoveFromRoleAsync(userFromDb, oldRole).GetAwaiter().GetResult();
+                _userManager.AddToRoleAsync(userFromDb, userVM.User.Role).GetAwaiter().GetResult();
             }
             return RedirectToAction(nameof(Index));
         }
